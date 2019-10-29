@@ -23,3 +23,5 @@ for i = 1:length(bathy_paths)
     println(bathy_paths[i])
     visualize_bathy_and_line(bathy_paths[i], line_paths[i], out_dir)
 end
+
+ismissing(missing)

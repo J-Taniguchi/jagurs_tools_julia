@@ -1,7 +1,10 @@
-using GMT
+using GMT; gmtread
 using Plots
+using ProgressMeter
+using DelimitedFiles
+default(show=false)
 
-function visualize_bathy(bathy_path, out_dir, c=:topo, dpi=300, fig_type="png", clip_lim=2000)
+function visualize_bathy(bathy_path, out_dir; c=:topo, dpi=300, fig_type="png", clip_lim=2000, out_fig_name=missing)
     grd = gmtread(bathy_path, grd=true)
     x = grd.x
     y = grd.y
@@ -10,16 +13,18 @@ function visualize_bathy(bathy_path, out_dir, c=:topo, dpi=300, fig_type="png", 
 
     Plots.heatmap(x, y, -z, c=:topo, clim=(-lim,lim), aspect_ratio=1, dpi=dpi)
 
-    bathy_name = split(bathy_path,"/")[end]
-    bathy_name = split(bathy_name,".")[1:end-1]
-    bathy_name = join(bathy_name,'.')
+    if ismissing(out_fig_name)
+        bathy_name = split(bathy_path,"/")[end]
+        bathy_name = split(bathy_name,".")[1:end-1]
+        bathy_name = join(bathy_name,'.')
 
-    out_fig_name = bathy_name * "." * fig_type
+        out_fig_name = bathy_name * "." * fig_type
+    end
 
     savefig(joinpath(out_dir, out_fig_name))
 end
 
-function visualize_bathy_and_line(bathy_path, line_path, out_dir, c=:topo, dpi=400, fig_type="svg", clip_lim=2000, chikei_lw=0.05, line_lw=0.1)
+function visualize_bathy_and_line(bathy_path, line_path, out_dir; c=:topo, dpi=400, fig_type="svg", clip_lim=2000, chikei_lw=0.05, line_lw=0.1, out_fig_name=missing)
     grd = gmtread(bathy_path, grd=true)
     x = grd.x
     y = grd.y
@@ -27,7 +32,7 @@ function visualize_bathy_and_line(bathy_path, line_path, out_dir, c=:topo, dpi=4
     dx_half = grd.inc[1]/2
     xmin,xmax,ymin,ymax = grd.range
     lim = minimum([clip_lim, abs(minimum(z)), maximum(z)])
-    Plots.heatmap(x, y, -z, c=:topo, clim=(-lim,lim), aspect_ratio=1, dpi=dpi)
+    Plots.heatmap(x, y, -z, c=c, clim=(-lim,lim), aspect_ratio=1, dpi=dpi)
     Plots.contour!(x, y, -z,
         levels=[0],
         color=:black,
@@ -42,7 +47,7 @@ function visualize_bathy_and_line(bathy_path, line_path, out_dir, c=:topo, dpi=4
     line = readdlm(line_path, ' ')
     zmin,zmax = extrema(line[:,4])
 
-    @progress for j = 1: size(line)[1]
+    @showprogress for j = 1: size(line)[1]
         if line[j,3] == 1
             xx = [line[j,1] + dx_half, line[j,1] + dx_half]
             yy = [line[j,2] - dx_half, line[j,2] + dx_half]
@@ -68,10 +73,14 @@ function visualize_bathy_and_line(bathy_path, line_path, out_dir, c=:topo, dpi=4
         end
     end
 
-    bathy_name = split(bathy_path,"/")[end]
-    bathy_name = split(bathy_name,".")[1:end-1]
-    bathy_name = join(bathy_name,'.')
+    if ismissing(out_fig_name)
+        bathy_name = split(bathy_path,"/")[end]
+        bathy_name = split(bathy_name,".")[1:end-1]
+        bathy_name = join(bathy_name,'.')
 
-    out_fig_name = bathy_name * "." * fig_type
+        out_fig_name = bathy_name * "." * fig_type
+    else
+        out_fig_name = out_fig_name * "." * fig_type
+    end
     savefig(joinpath(out_dir, out_fig_name))
 end
