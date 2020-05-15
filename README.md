@@ -15,19 +15,33 @@ this program has bugs.
 - ArgParse.jl
 
 ## useage
-
-``` bash
-convert_coordinate.jl [input_grid_file] [output_grid_file_name] [EPSG_code_of_input_grid] [EPSG_code_of_output_grid]
 ```
+usage: convert_coordinate.jl [-h] input output in_EPSG out_EPSG grid_size xmin xmax ymin ymax
 
-### example of EPSG code
-EPSG code | meaning|
-----------|--------|
-4612| JGD2000
-6668 | JGD2011
-6672 | 平面直角第4系(JGD2011)
-2446 | 平面直角第4系(JGD2000)
-6674 | 平面直角第6系(JGD2011)
-2448 | 平面直角第6系(JGD2000)
+positional arguments:
+  input       input grid file
+  output      input grid file name
+  in_EPSG     EPSG code of input grid (type: Int64)
+  out_EPSG    EPSG code of output grid (type: Int64)
+  grid_size   grid size of output grid.
+  xmin        xmin of output grid (type: Float64)
+  xmax        xmax of output grid (type: Float64)
+  ymin        ymin of output grid (type: Float64)
+  ymax        ymax of output grid (type: Float64)
+  optional arguments:
+  -h, --help  show this help message and exit
+```
+or read sample_convert_coordinate.ps1.
+
+
+## example of EPSG code
+EPSG code | meaning
+----------|--------
+4612      | JGD2000
+6668      | JGD2011
+6672      | 平面直角第4系(JGD2011)
+2446      | 平面直角第4系(JGD2000)
+6674      | 平面直角第6系(JGD2011)
+2448      | 平面直角第6系(JGD2000)
 
 [reference](http://tmizu23.hatenablog.com/entry/20091215/1260868350) (In Japanese)
