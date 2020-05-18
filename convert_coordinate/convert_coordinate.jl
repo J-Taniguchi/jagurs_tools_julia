@@ -5,12 +5,6 @@ using DelimitedFiles
 using GMT
 using ArgParse
 
-#out_dirは変換後のgrdファイルを出力するディレクトリ．
-#out_dir内にMwごとにディレクトリを作成し，
-#その中にシナリオごとにディレクトリを作成，
-#各シナリオのディレクトリ内に変換・補間後のgrdファイルを出力する．
-
-
 function parse_commandline()
     s = ArgParseSettings()
 
