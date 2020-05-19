@@ -1,12 +1,31 @@
 Tools for JAGURS
 
-# visualize_bathy(_and_line).jl
-this program has bugs.
+# visualize_bathy.jl
+
 ## required packages
 - GMT.jl
   -  Note that, [GMT](https://github.com/GenericMappingTools/gmt/blob/master/INSTALL.md) is required for GMT.jl
+- ArgParse.jl
 - Plots.jl
 - ProgressMeter.jl
+
+## Useage
+```
+usage: visualize_bathy.jl [-l] [-i IMAGE_TYPE] [-y] [-h] gridfile output_dir
+
+positional arguments:
+  gridfile              gridfile.dat
+  output_dir            output directory
+
+optional arguments:
+  -l, --write_line      write line data
+  -i, --image_type IMAGE_TYPE
+                        output image type. png or svg 
+                        (default: "png")
+  -y, --yes_all         make output_dir if it dose not exist, 
+                        and output files to output_dir.
+  -h, --help            show this help message and exit
+```
 
 # convert_coordinates.jl
 ## required packages
