@@ -1,9 +1,9 @@
 #set jagurs_tools_path
 #if you set as absolute path, you can bring this code everywhere you want.
-jagurs_tools_path = "./"
+jagurs_tools_path = "path/to/jagurs_tools"
 
 #make bathy_paths as Vector{String}
-bathy_dir = "../dataset/arikawa/"
+bathy_dir = "path/to/bathy_dir"
 bathies = ["bathy.grd"]
 bathy_paths = joinpath.(bathy_dir, bathies)
 
@@ -13,7 +13,7 @@ lines = ["bank.txt"]
 line_paths = joinpath.(bathy_dir, lines)
 
 #set out_dir
-out_dir  = "../dataset/arikawa_result"
+out_dir  = "path/to/out_dir"
 
 #don't touch below
 include(joinpath(jagurs_tools_path, "visualize/visualize_bathy.jl"))
