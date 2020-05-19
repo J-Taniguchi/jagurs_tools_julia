@@ -2,6 +2,7 @@ using GMT; gmtread
 using Plots
 using ProgressMeter
 using DelimitedFiles
+ENV["GKSwstype"]="nul"
 default(show=false)
 
 function visualize_bathy(bathy_path, out_dir; c=:topo, dpi=300, fig_type="png", clip_lim=2000, out_fig_name=missing)
@@ -11,7 +12,7 @@ function visualize_bathy(bathy_path, out_dir; c=:topo, dpi=300, fig_type="png", 
     z = grd.z
     lim = minimum([clip_lim, abs(minimum(z)), maximum(z)])
 
-    Plots.heatmap(x, y, -z, c=:topo, clim=(-lim,lim), aspect_ratio=1, dpi=dpi)
+    Plots.heatmap(x, y, -z, c=c, clim=(-lim,lim), aspect_ratio=1, dpi=dpi)
 
     if ismissing(out_fig_name)
         bathy_name = split(bathy_path,"/")[end]
@@ -49,23 +50,23 @@ function visualize_bathy_and_line(bathy_path, line_path, out_dir; c=:topo, dpi=4
 
     @showprogress for j = 1: size(line)[1]
         if line[j,3] == 1
-            xx = [line[j,1] + dx_half, line[j,1] + dx_half]
-            yy = [line[j,2] - dx_half, line[j,2] + dx_half]
+            xx = [line[j,2] + dx_half, line[j,2] + dx_half]
+            yy = [line[j,1] - dx_half, line[j,1] + dx_half]
             zz = [line[j,4], line[j,4]]
             Plots.plot!(xx,yy, c=:red, lw=line_lw, legend=false)
         elseif line[j,3] == 2
-            xx = [line[j,1] - dx_half, line[j,1] + dx_half]
-            yy = [line[j,2] + dx_half, line[j,2] + dx_half]
+            xx = [line[j,2] - dx_half, line[j,2] + dx_half]
+            yy = [line[j,1] + dx_half, line[j,1] + dx_half]
             zz = [line[j,4], line[j,4]]
             Plots.plot!(xx,yy, c=:red, lw=line_lw, legend=false)
         elseif line[j,3] == 3
-            xx = [line[j,1] + dx_half, line[j,1] + dx_half]
-            yy = [line[j,2] - dx_half, line[j,2] + dx_half]
+            xx = [line[j,2] + dx_half, line[j,2] + dx_half]
+            yy = [line[j,1] - dx_half, line[j,1] + dx_half]
             zz = [line[j,4], line[j,4]]
             Plots.plot!(xx,yy, c=:red, lw=line_lw, legend=false)
 
-            xx = [line[j,1] - dx_half, line[j,1] + dx_half]
-            yy = [line[j,2] + dx_half, line[j,2] + dx_half]
+            xx = [line[j,2] - dx_half, line[j,2] + dx_half]
+            yy = [line[j,1] + dx_half, line[j,1] + dx_half]
             zz = [line[j,4], line[j,4]]
             Plots.plot!(xx,yy, c=:red, lw=line_lw, legend=false)
         else
