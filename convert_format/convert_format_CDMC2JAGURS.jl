@@ -123,7 +123,7 @@ function make_grid(out_dir, data_dir, cal_area, target_mesh, prefix)
         xinc = dx
         yinc = dy
 
-        hdr = [x0 xmax y0 ymax zmin zmax reg xinc yinc]
+        hdr = [xmin xmax ymin ymax zmin zmax reg xinc yinc]
         grd = mat2grid(z, hdr=hdr)
 
         gmtwrite(joinpath(out_dir, prefix * "_" * target_list[i] * ".grd=cf"), grd)
